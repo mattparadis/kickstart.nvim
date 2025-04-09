@@ -102,7 +102,7 @@ vim.g.have_nerd_font = false
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -750,19 +750,24 @@ require('lazy').setup({
     },
     opts = {
       notify_on_error = false,
+      --[[
+format_on_save = function(bufnr)
+  -- Disable "format_on_save lsp_fallback" for languages that don't
+  -- have a well standardized coding style. You can add additional
+  -- languages here or re-enable it for the disabled ones.
+  local disable_filetypes = { c = true, cpp = true }
+  if disable_filetypes[vim.bo[bufnr].filetype] then
+    return nil
+  else
+    return {
+      timeout_ms = 500,
+      lsp_format = 'fallback',
+    }
+  end
+end,
+]]
       format_on_save = function(bufnr)
-        -- Disable "format_on_save lsp_fallback" for languages that don't
-        -- have a well standardized coding style. You can add additional
-        -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
-        if disable_filetypes[vim.bo[bufnr].filetype] then
-          return nil
-        else
-          return {
-            timeout_ms = 500,
-            lsp_format = 'fallback',
-          }
-        end
+        return nil
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
@@ -811,6 +816,7 @@ require('lazy').setup({
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-nvim-lsp-signature-help',
+      "windwp/nvim-autopairs",
     },
     config = function()
       -- See `:help cmp`
@@ -890,6 +896,8 @@ require('lazy').setup({
           { name = 'nvim_lsp_signature_help' },
         },
       }
+      local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+      cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
     end,
   },
 

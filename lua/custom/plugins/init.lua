@@ -5,74 +5,76 @@
 -- Using lazy.nvim
 
 return {
-  {
-    'ribru17/bamboo.nvim',
-    lazy = false,
-    priority = 1000,
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000,
     config = function()
-      require('bamboo').setup {
-        -- Main options --
-        -- NOTE: to use the light theme, set `vim.o.background = 'light'`
-        style = 'multiplex', -- Choose between 'vulgaris' (regular), 'multiplex' (greener), and 'light'
-        toggle_style_key = nil, -- Keybind to toggle theme style. Leave it nil to disable it, or set it to a string, e.g. "<leader>ts"
-        toggle_style_list = { 'vulgaris', 'multiplex', 'light' }, -- List of styles to toggle between
-        transparent = false, -- Show/hide background
-        dim_inactive = false, -- Dim inactive windows/buffers
-        term_colors = true, -- Change terminal color as per the selected theme style
-        ending_tildes = false, -- Show the end-of-buffer tildes. By default they are hidden
-        cmp_itemkind_reverse = false, -- reverse item kind highlights in cmp menu
-
-        -- Change code style ---
-        -- Options are anything that can be passed to the `vim.api.nvim_set_hl` table
-        -- You can also configure styles with a string, e.g. keywords = 'italic,bold'
-        code_style = {
-          comments = { italic = true },
-          conditionals = { italic = true },
-          keywords = {},
+      require("catppuccin").setup({
+        flavour = "auto", -- latte, frappe, macchiato, mocha
+        background = { -- :h background
+          light = "latte",
+          dark = "mocha",
+        },
+        transparent_background = false, -- disables setting the background color.
+        show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
+        term_colors = false, -- sets terminal colors (e.g. `g:terminal_color_0`)
+        dim_inactive = {
+          enabled = false, -- dims the background color of inactive window
+          shade = "dark",
+          percentage = 0.15, -- percentage of the shade to apply to the inactive window
+        },
+        no_italic = false, -- Force no italic
+        no_bold = false, -- Force no bold
+        no_underline = false, -- Force no underline
+        styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
+          comments = { "italic" }, -- Change the style of comments
+          conditionals = { "italic" },
+          loops = {},
           functions = {},
-          namespaces = { italic = true },
-          parameters = { italic = true },
+          keywords = {},
           strings = {},
           variables = {},
+          numbers = {},
+          booleans = {},
+          properties = {},
+          types = {},
+          operators = {},
+          -- miscs = {}, -- Uncomment to turn off hard-coded styles
         },
-
-        -- Lualine options --
-        lualine = {
-          transparent = false, -- lualine center bar transparency
-        },
-
-        -- Custom Highlights --
-        colors = {}, -- Override default colors
-        highlights = {}, -- Override highlight groups
-
-        -- Plugins Config --
-        diagnostics = {
-          darker = false, -- darker colors for diagnostic
-          undercurl = true, -- use undercurl instead of underline for diagnostics
-          background = true, -- use background color for virtual text
-        },
-      }
-      require('bamboo').load()
-    end,
-  },
-
-  {
-    'nvim-telescope/telescope-ui-select.nvim',
-    dependencies = { 'nvim-telescope/telescope.nvim' },
-    config = function()
-      require('telescope').setup {
-        extensions = {
-          ['ui-select'] = require('telescope.themes').get_dropdown {
-            -- Puoi mettere altre opzioni qui, se vuoi
+        color_overrides = {},
+        custom_highlights = {},
+        default_integrations = true,
+        integrations = {
+          cmp = true,
+          gitsigns = true,
+          nvimtree = true,
+          treesitter = true,
+          notify = false,
+          mini = {
+            enabled = true,
+            indentscope_color = "",
           },
+          -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
         },
-      }
+      })
 
-      -- Carica l'estensione dopo la configurazione
-      require('telescope').load_extension 'ui-select'
+    vim.cmd.colorscheme "catppuccin"    
     end,
   },
+  
   {
+    "nvim-telescope/telescope-ui-select.nvim",
+    config = function()
+      require("telescope").setup {
+        extensions = {
+          ["ui-select"] = {
+            require("telescope.themes").get_dropdown {}
+          }
+        }
+      }
+      require("telescope").load_extension("ui-select")
+    end,
+  },
+
+ {
     'nvimdev/dashboard-nvim',
 
     event = 'VimEnter',
@@ -111,5 +113,47 @@ return {
       }
     end,
     dependencies = { { 'nvim-tree/nvim-web-devicons' } },
-  },
+  }, 
+
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    config = function()
+      require("nvim-autopairs").setup({})
+    end,
+  }
+ --[[ {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    build = ":Copilot auth",
+    config = function()
+      require("copilot").setup({
+        suggestion = {
+          enabled = true,
+          auto_trigger = false, -- ❌ no trigger automatico
+          debounce = 75,
+          keymap = {
+            accept = "<Tab>",
+            accept_line = "<S-Tab>",    -- ✅ Shift + Tab accetta la riga
+            accept_word = false,
+            next = "<C-]>",
+            prev = "<C-[>",
+            dismiss = "<C-e>",
+          },
+        },
+        panel = {
+          enabled = false, -- pannello disabilitato per semplicità
+        },
+        filetypes = {
+          markdown = true,
+          help = true,
+          gitcommit = true,
+          ["*"] = true,
+        },
+      })
+
+      -- ✅ Mappiamo <leader>cp per abilitare Copilot manualmente
+      vim.keymap.set("n", "<leader>cp", "<cmd>Copilot enable<CR>", { desc = "Abilita Copilot" })
+    end,
+  },  ]]
 }
