@@ -27,23 +27,33 @@ return {
       end
     end,
   },
-  { 'echasnovski/mini.icons', version = false,
+  {
+    'echasnovski/mini.icons',
+    version = false,
     config = function()
       require('mini.icons').setup {}
-    end
+    end,
   },
-{ 'echasnovski/mini.move', version = false,
-    config = function ()
-      require('mini.move').setup {
-        }
-    end},
-{ 'echasnovski/mini.files', version = false,
-  config = function ()
+  {
+    'echasnovski/mini.move',
+    version = false,
+    config = function()
+      require('mini.move').setup {}
+    end,
+  },
+  {
+    'echasnovski/mini.files',
+    version = false,
+    config = function()
       require('mini.files').setup {
-      	windows = {
-		preview = true,
-                width_preview = 50
-	}
+        windows = {
+          preview = true,
+          width_preview = 50,
+        },
+        options = {
+          use_as_default_explorer = false,
+        },
       }
-  end},
+    end,
+  },
 }

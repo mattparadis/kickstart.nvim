@@ -248,8 +248,15 @@ require('lazy').setup({
       local servers = {
         gopls = {},
         pylsp = {
-          plugins = {
-            pycodestyle = { enabled = false },
+          settings = {
+            pylsp = {
+              plugins = {
+                pycodestyle = { enabled = false },
+                -- pyflakes = { enabled = false },
+                -- mccabe = { enabled = false },
+                -- pydocstyle = { enabled = false },
+              },
+            },
           },
         },
         html = {},
@@ -279,7 +286,7 @@ require('lazy').setup({
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
-        ensure_installed = {}, 
+        ensure_installed = {},
         automatic_installation = false,
         handlers = {
           function(server_name)
@@ -468,7 +475,29 @@ end,
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'yaml', 'json', 'javascript', 'tsx', 'css', 'scss', 'go', 'python', 'rust', 'sql' },
+      ensure_installed = {
+        'bash',
+        'c',
+        'diff',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
+        'yaml',
+        'json',
+        'javascript',
+        'tsx',
+        'css',
+        'scss',
+        'go',
+        'python',
+        'rust',
+        'sql',
+      },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
@@ -485,7 +514,7 @@ end,
   -- { import = 'custom.themes' },
 }, {
   ui = {
-      icons = vim.g.have_nerd_font and {} or {
+    icons = vim.g.have_nerd_font and {} or {
       cmd = '⌘',
       config = '🛠',
       event = '📅',
@@ -503,9 +532,9 @@ end,
   },
 })
 
-vim.opt.background = "dark"
-vim.cmd("colorscheme oxocarbon")
+vim.opt.background = 'dark'
+vim.cmd 'colorscheme oxocarbon'
 
-vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
+vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
+vim.api.nvim_set_hl(0, 'NormalNC', { bg = 'none' })
