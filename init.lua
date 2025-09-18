@@ -263,6 +263,8 @@ require('lazy').setup({
         htmx = {},
         emmet_ls = {},
 
+        phpactor = {},
+        laravel_ls = {},
         lua_ls = {
           -- cmd = { ... },
           -- filetypes = { ... },
