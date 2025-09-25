@@ -13,3 +13,9 @@ vim.keymap.set('n', '<leader>O', ":Oil<CR>", {
   noremap = true,
   silent = true,
 })
+
+vim.keymap.set('n', '<leader>ff', ":Telescope flutter commands<CR>", {
+  desc = 'Flutter commands',
+  noremap = true,
+  silent = true,
+})
