@@ -265,6 +265,7 @@ require('lazy').setup({
 
         phpactor = {},
         laravel_ls = {},
+
         lua_ls = {
           -- cmd = { ... },
           -- filetypes = { ... },
